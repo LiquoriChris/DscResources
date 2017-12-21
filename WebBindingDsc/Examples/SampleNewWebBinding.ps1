@@ -12,7 +12,7 @@
 
     Node $ComputerName
     {
-        WebBinding NewWebBinding
+        SslBindingDsc NewWebBinding
         {
             Name = $Node.Name
             Protocol = $Node.Protocol
