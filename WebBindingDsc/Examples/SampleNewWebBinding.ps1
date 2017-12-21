@@ -2,22 +2,24 @@
 {
     param
 	(
-		[Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $false)]
+		[pscredential]$ComputerName,
+        [Parameter(Mandatory = $true)]
 		[pscredential]$Credential
 	)
 
-    Import-DscResource -ModuleName xHiiWebBinding
+    Import-DscResource -ModuleName WebBindingDsc
 
-    Node arr201.epi.usf.edu
+    Node $ComputerName
     {
-        xWebBinding NewWebBinding
+        WebBinding NewWebBinding
         {
-            Name = 'Default Web Site'
-            Protocol = 'https'
-            Port = '443'
-            IPAddress = '10.54.16.254'
-            HostHeader = 'www.trigr.org'
-            SslFlags = '2'
+            Name = $Node.Name
+            Protocol = $Node.Protocol
+            Port = $Node.Port
+            IPAddress = $Node.IPAddress
+            HostHeader = $Node.HostHeader
+            SslFlags = $Node.SslFlags
             Ensure = 'Present'
             PsDscRunAsCredential = $Credential
         }
@@ -27,7 +29,12 @@
 $ConfigurationData = @{
     AllNodes = @(
         @{
-            NodeName = 'arr201.epi.usf.edu'
+            Name = 'contoso'
+            Protocol = 'https'
+            Port = '443'
+            IPAddress = '192.168.100.100'
+            HostHeader = 'www.contoso.com'
+            SslFlags = '3' 
             PsDscAllowPlainTextPassword = $true
             PsDscAllowDomainUser = $true
         }
