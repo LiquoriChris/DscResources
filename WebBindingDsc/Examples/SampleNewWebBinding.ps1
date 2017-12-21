@@ -26,7 +26,7 @@
     }
 }
 
-$ConfigurationData = @{
+$ConfigData = @{
     AllNodes = @(
         @{
             Name = 'contoso'
@@ -40,3 +40,6 @@ $ConfigurationData = @{
         }
     )
 }
+
+NewWebBinding -ComputerName $ComputerName -ConfigurationData $ConfigData -OutputPath C:\dsc
+Start-DscConfiguration -Path C:\dsc -Wait -Verbose
